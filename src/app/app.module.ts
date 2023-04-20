@@ -7,6 +7,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { TotalMedalsChartComponent } from './pages/home/total-medals-chart/total-medals-chart.component';
 import { NationChartComponent } from './pages/home/total-medals-chart/nation-chart/nation-chart.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { NationChartComponent } from './pages/home/total-medals-chart/nation-cha
   imports: [
     BrowserModule, 
     AppRoutingModule, 
-    HttpClientModule
+    HttpClientModule,
+    NgxChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
