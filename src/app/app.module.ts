@@ -5,11 +5,23 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { TotalMedalsChartComponent } from './pages/home/total-medals-chart/total-medals-chart.component';
+import { NationChartComponent } from './pages/home/total-medals-chart/nation-chart/nation-chart.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, NotFoundComponent],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
+  declarations: [
+    AppComponent, 
+    HomeComponent, 
+    NotFoundComponent,
+     TotalMedalsChartComponent,
+      NationChartComponent
+    ],
+  imports: [
+    BrowserModule, 
+    AppRoutingModule, 
+    HttpClientModule
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
