@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
@@ -10,7 +11,7 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 export class HomeComponent implements OnInit {
   public olympics$: Observable<any> = of(null);
 
-  constructor(private olympicService: OlympicService) {}
+  constructor(private olympicService: OlympicService, router: Router) {}
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();

@@ -1,10 +1,11 @@
-export class Participation {
-    id!: number;
-    year!: number;
-    city!: string;
-    medalsCount!: number;
-    athleteCount!: number;
-  }
+export interface IParticipation {
+    id: number,
+    year: number;
+    city: string;
+    medalsCount: number;
+    athleteCount: number;
+}
+
 
   // "id": 3,
   // "year": 2020,

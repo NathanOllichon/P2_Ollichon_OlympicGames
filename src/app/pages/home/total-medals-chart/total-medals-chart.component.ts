@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { single } from './fakes-datas/FakeTotalDatas';
-import { LegendPosition } from '@swimlane/ngx-charts';
+//import { single } from './fakes-datas/FakeTotalDatas';
+import { LegendPosition, Color, ScaleType } from '@swimlane/ngx-charts';
+import { OlympicService } from 'src/app/core/services/olympic.service';
+import { NationForNgxCharts } from 'src/app/core/models/nation.model';
+import { ActivatedRoute, Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-total-medals-chart',
@@ -8,41 +12,52 @@ import { LegendPosition } from '@swimlane/ngx-charts';
   styleUrls: ['./total-medals-chart.component.scss']
 })
 export class TotalMedalsChartComponent implements OnInit {
+  //single:any[] | undefined;
 
-  constructor() { 
-    Object.assign(this, { single });
-  }
-
-  ngOnInit(): void {
-    //http get datas for json ?
-  }
-
-  
-  //single is the constant with informations. Maybe to 'cast' into another datas template ? for give it in chart.
-  single: any[] | undefined;
-  view: [number, number] = [700, 400];
+  datasNations!: NationForNgxCharts[];
 
   // options
   gradient: boolean = true;
-  showLegend: boolean = true;
+  showLegend: boolean = false;
   showLabels: boolean = true;
   isDoughnut: boolean = false;
   legendPosition: LegendPosition = LegendPosition.Below;
 
-  colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA'],
-  };
+  //for custom color we can use color and #code here, don't forgot to add colorScheme on html !
+  // colorScheme: Color = { 
+  //     domain: ['purple','pink', 'blue', 'black', 'red'],  //TODO maybe change color?
+  //     group: ScaleType.Ordinal, 
+  //     selectable: true,
+  //     name: 'Customer Usage', 
+  // };
 
-  // onSelect(data): void {
-  //   console.log('Item clicked', JSON.parse(JSON.stringify(data)));
-  // }
+  constructor(private olympicService: OlympicService,  private route: ActivatedRoute,
+    private router: Router  ) {
+  }
 
-  // onActivate(data): void {
-  //   console.log('Activate', JSON.parse(JSON.stringify(data)));
-  // }
+  ngOnInit(): void {
+    //this.single = single;
 
-  // onDeactivate(data): void {
-  //   console.log('Deactivate', JSON.parse(JSON.stringify(data)));
-  // }
+    this.olympicService
+      .loadInitialData()
+      .subscribe(
+        val => {
+          console.log(val);
+          const tabNation: NationForNgxCharts[] = this.olympicService.formatForTotalNgxChart(val);
+          this.datasNations = tabNation;
+          console.log(this.datasNations);
+        }
+      );
+  }
+
+  onSelect(data: NationForNgxCharts): void {
+    //route to chart 2 with data.
+    //onInit modif datas
+    
+    // https://www.javaguides.net/2019/06/navigate-to-another-page-with-button-in-angular.html
+    //Router.
+    console.log('Select');    
+    this.router.navigate(['nationchart']);    
+  }
 
 }

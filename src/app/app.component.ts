@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { take } from 'rxjs';
+import { BehaviorSubject, Observable, take } from 'rxjs';
 import { OlympicService } from './core/services/olympic.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,10 +9,10 @@ import { OlympicService } from './core/services/olympic.service';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private olympicService: OlympicService) {}
+  olympics$: Observable<any> | undefined;
+
+  constructor(private olympicService: OlympicService, router :Router) {}
 
   ngOnInit(): void {
-    this.olympicService.loadInitialData().pipe(take(1)).subscribe();
-    console.log(this.olympicService);
   }
 }
