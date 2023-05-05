@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-//import { single } from './fakes-datas/FakeTotalDatas';
-import { LegendPosition, Color, ScaleType } from '@swimlane/ngx-charts';
+import { LegendPosition} from '@swimlane/ngx-charts';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { NationForNgxCharts } from 'src/app/core/models/nation.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +11,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./total-medals-chart.component.scss']
 })
 export class TotalMedalsChartComponent implements OnInit {
-  //single:any[] | undefined;
 
   datasNations!: NationForNgxCharts[];
 
@@ -50,13 +48,8 @@ export class TotalMedalsChartComponent implements OnInit {
       );
   }
 
-  onSelect(data: NationForNgxCharts): void {
-    //route to chart 2 with data.
-    //onInit modif datas
-    
-    // https://www.javaguides.net/2019/06/navigate-to-another-page-with-button-in-angular.html
-    //Router.
-    console.log('Select');    
+  onSelect(data: NationForNgxCharts): void { 
+    //observable.tap or map, new object, one nation with Participations[]
     this.router.navigate(['nationchart']);    
   }
 

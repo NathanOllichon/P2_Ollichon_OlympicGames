@@ -8,7 +8,9 @@ import { multi } from '../fakes-datas/FakeNationDatas';
 })
 export class NationChartComponent implements OnInit {
   multi: any = multi;
+  
   data : any; //not any, should create object and interface. 
+
 
   // options
   legend: boolean = true;
@@ -23,7 +25,6 @@ export class NationChartComponent implements OnInit {
   timeline: boolean = true;
 
   constructor() {
-    Object.assign(this, { multi });
   }
 
   ngOnInit(): void {

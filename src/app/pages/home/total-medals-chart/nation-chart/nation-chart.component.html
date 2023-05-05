@@ -1,6 +1,7 @@
 <h1>Nation chart</h1>
-
 <!-- <h1>{{nationData.name}}</h1> -->
+
+<!-- TODO component ! -->
 <div class="h3contener">
 
     <div class="numberOf">
@@ -20,10 +21,11 @@
 
 <div class="line-chart">
     <ngx-charts-line-chart [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis"
-        [yAxis]="yAxis" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [timeline]="timeline" [results]="multi">
+        [yAxis]="yAxis" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [timeline]="timeline" [results]="this.multi">
     </ngx-charts-line-chart>
 </div>
 
+<!-- TODO component ! -->
 <div class="goBack">
     <h2>
         <a routerLink="">Go back</a>
