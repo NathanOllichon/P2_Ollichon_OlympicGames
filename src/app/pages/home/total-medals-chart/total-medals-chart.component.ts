@@ -34,7 +34,6 @@ export class TotalMedalsChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.single = single;
 
     this.olympicService
       .loadInitialData()
@@ -50,6 +49,7 @@ export class TotalMedalsChartComponent implements OnInit {
 
   onSelect(data: NationForNgxCharts): void { 
     //observable.tap or map, new object, one nation with Participations[]
+    //new service ?
     this.router.navigate(['nationchart']);    
   }
 
