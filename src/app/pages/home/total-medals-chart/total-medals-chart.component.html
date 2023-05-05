@@ -1,3 +1,4 @@
+<!--[scheme]="this.colorScheme"-->
 <ngx-charts-pie-chart
   [results]="this.datasNations"
   [gradient]="gradient"
@@ -10,7 +11,6 @@
   >
 
   <ng-template #tooltipTemplate let-model="model">
-    <!-- fields are series/name/value -->
     <div class="tt">
       <p>{{ model.name }}</p>
       <p>🥇{{ model.value }}</p>
@@ -19,7 +19,3 @@
 
 </ngx-charts-pie-chart>
 
-<!--
-  [scheme]="this.colorScheme" 
-(activate)="onActivate($event)"
-(deactivate)="onDeactivate($event)" -->
