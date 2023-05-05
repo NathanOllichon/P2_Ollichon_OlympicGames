@@ -8,7 +8,7 @@ import { multi } from '../fakes-datas/FakeNationDatas';
 })
 export class NationChartComponent implements OnInit {
   multi: any = multi;
-  view: [number, number] = [700, 300];
+  data : any; //not any, should create object and interface. 
 
   // options
   legend: boolean = true;
@@ -18,8 +18,8 @@ export class NationChartComponent implements OnInit {
   yAxis: boolean = true;
   showYAxisLabel: boolean = true;
   showXAxisLabel: boolean = true;
-  xAxisLabel: string = 'Year';
-  yAxisLabel: string = 'Population';
+  yAxisLabel: string = 'Medals';
+  xAxisLabel: string = 'JO';
   timeline: boolean = true;
 
   constructor() {
@@ -27,7 +27,8 @@ export class NationChartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // .suscribe at one observable ? 
+    // .suscribe at one observable ? onselect totalchart, map/tap observable. suscribe here and pass to "this.data = value;
+    // data : elementNeeded;"
     // issue, load for one particular country ! pass into URL ?
   }
 
