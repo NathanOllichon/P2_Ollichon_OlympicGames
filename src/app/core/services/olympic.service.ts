@@ -1,19 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { Nation, NationForNgxCharts } from '../models/nation.model';
-//import { IParticipation } from '../models/participation.model';
+import { BehaviorSubject, of } from 'rxjs';
+import { NationForNgxCharts } from '../models/nationForsNgxCharts.model';
+import { Nation } from '../models/nation.model';
+import { DetailledNationForNgxCharts } from '../models/nationForsNgxCharts.model copy';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OlympicService {
-  //private olympicUrl = './fakeURLForThrowError';
   private olympicUrl = './assets/mock/olympic.json';
   private olympics$ = new BehaviorSubject<any>(undefined);
-  private nbMedals!: number;
-  private nationForNgxCharts!: NationForNgxCharts;
 
   constructor(private http: HttpClient) { }
 
@@ -22,66 +19,62 @@ export class OlympicService {
   loadInitialData() {
 
     return this.http
-      .get<Nation[]>(this.olympicUrl)
-      .pipe(
-        tap(() =>{
-          new Error();
-          //nothing, jus for keep the call API into this service for future reuse.
-        },
-          catchError((error, caught) => {
-            // TODO: improve error handling
-            console.error("erreur" + error);
-            // can be useful to end loading state and let the user know something went wrong
-            //TODO add image if we catch en error
-            // https://stackoverflow.com/questions/43199642/how-to-throw-error-from-rxjs-map-operator-angular 
-            //How enlever le hidden sur notre element loading/error, or see error message at screen or other thinks ?
-            //Maybe => document.getElementById("awesome").hidden = false;
-            this.olympics$.next(null);
-            return caught;
-          })
-        )
-      )
+      .get<any>(this.olympicUrl)
   }
 
+  //TODO rename format to map, maybe add an mapper.class ? YES ! //TODO
+  mapForTotalNgxChart(value: Nation[]) {
+    var tabNations: NationForNgxCharts[] = [];
 
-  formatForTotalNgxChart(value: Nation[]) {
-    var tabNations : NationForNgxCharts[] = [];
-    
     value.forEach((element) => {
-      this.nbMedals = 0;
-      element.participations.forEach(participation =>
-        this.nbMedals += participation.medalsCount
-      )
-
-      tabNations.push(new NationForNgxCharts(element.country, this.nbMedals));
+      tabNations.push(new NationForNgxCharts(element));
     })
     return (tabNations);
   }
 
+  mapForNationNgxChart(nations: any, nationName: string) {
+    return new DetailledNationForNgxCharts(nations, nationName);
+  }
+
+
+  countNbJOs(tabNations: Nation[]) {
+    var duplicatedYearJOs: number[] = [];
+
+    tabNations.forEach(nation => {
+      nation.participations.forEach(participation =>
+        duplicatedYearJOs.push(participation.year)
+      )
+    });
+
+    //Set delete duplicated datas.
+    var uniqueYearsJO = Array.from(new Set(duplicatedYearJOs));
+
+    return uniqueYearsJO.length;
+  }
+
+  countNbMedals(nation: DetailledNationForNgxCharts) {
+    var countMedals: number = 0;
+    nation.series.forEach(JO => {
+      countMedals += JO.value;
+    }
+    )
+    return countMedals;
+  }
+
+  countNbAthletes(tabNations: Nation[], nationChoice: string) {
+    var countAthletes: number = 0;
+    tabNations.forEach(nation => {
+      if (nation.country == nationChoice) {
+        nation.participations.forEach(participation =>
+          countAthletes += participation.athleteCount
+        )
+      }
+    });
+    return countAthletes;
+  }
 
   getOlympics() {
     return this.olympics$.asObservable();
   }
-
-
-  // save with tap !!!
-  // loadInitialData() {
-  //   return this.http
-  //     .get<Nation[]>(this.olympicUrl)
-  //     .pipe(
-  //       //My value should become a Nation ! constructeur dans nation ! 
-  //       tap((value) => {
-  //         this.nationForNgxCharts = this.formatForTotalNgxChart(value);
-  //       },
-  //         catchError((error, caught) => {
-  //           // TODO: improve error handling
-  //           console.error(error);
-  //           // can be useful to end loading state and let the user know something went wrong
-  //           this.olympics$.next(null);
-  //           return caught;
-  //         })
-  //       )
-  //     )
-  // }
 
 }

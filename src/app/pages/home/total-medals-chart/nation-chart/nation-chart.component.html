@@ -1,31 +1,39 @@
-<h1>Nation chart</h1>
-<!-- <h1>{{nationData.name}}</h1> -->
+<ng-container *ngIf="this.callWorkFine; then callWorkFineTrue else callNotWorking"></ng-container>
 
-<!-- TODO component ! -->
-<div class="h3contener">
+<ng-template #callWorkFineTrue>
+    <h1>{{this.data.name}}</h1>
 
-    <div class="numberOf">
-        <h3>Number of </h3>
-        <!-- <p>machin</p>  -->
+    <div class="h3contener">
+
+        <div class="numberOf">
+            <h3>Number of participations</h3>
+            <p>{{this.data.series.length}}</p>
+        </div>
+
+        <div class="numberOf">
+            <h3>Number of medals</h3>
+            <p>{{this.nbMedals}}</p> 
+        </div>
+
+        <div class="numberOf">
+            <h3>Number of athletes</h3>
+            <p>{{this.nbAthletes}}</p> 
+        </div>
+
     </div>
 
-    <div class="numberOf">
-        <h3>Number of </h3>
+    <div class="line-chart">
+        <ngx-charts-line-chart [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis"
+            [yAxis]="yAxis" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [timeline]="timeline"
+            [results]="anytab">
+        </ngx-charts-line-chart>
     </div>
+</ng-template>
 
-    <div class="numberOf">
-        <h3>Number of </h3>
-    </div>
+<ng-template #callNotWorking>
+    <h2 class="error"> Erreur dans le traitement des données => [ {{this.error}} ] </h2>
+</ng-template>
 
-</div>
-
-<div class="line-chart">
-    <ngx-charts-line-chart [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis"
-        [yAxis]="yAxis" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [timeline]="timeline" [results]="this.multi">
-    </ngx-charts-line-chart>
-</div>
-
-<!-- TODO component ! -->
 <div class="goBack">
     <h2>
         <a routerLink="">Go back</a>

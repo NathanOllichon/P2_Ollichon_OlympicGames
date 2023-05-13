@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { multi } from '../fakes-datas/FakeNationDatas';
+import { OlympicService } from 'src/app/core/services/olympic.service';
+import { catchError, of } from 'rxjs';
+import { DetailledNationForNgxCharts } from 'src/app/core/models/nationForsNgxCharts.model copy';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-nation-chart',
@@ -7,10 +10,14 @@ import { multi } from '../fakes-datas/FakeNationDatas';
   styleUrls: ['./nation-chart.component.scss']
 })
 export class NationChartComponent implements OnInit {
-  multi: any = multi;
-  
-  data : any; //not any, should create object and interface. 
 
+  callWorkFine: boolean = false;
+  data !: DetailledNationForNgxCharts;
+  anytab: any[] = [];
+  error: any;
+  nationName!: string;
+  nbMedals!: number;
+  nbAthletes!: number;
 
   // options
   legend: boolean = true;
@@ -24,13 +31,49 @@ export class NationChartComponent implements OnInit {
   xAxisLabel: string = 'JO';
   timeline: boolean = true;
 
-  constructor() {
+  constructor(private olympicService: OlympicService, private route: ActivatedRoute) {
   }
 
-  ngOnInit(): void {
-    // .suscribe at one observable ? onselect totalchart, map/tap observable. suscribe here and pass to "this.data = value;
-    // data : elementNeeded;"
-    // issue, load for one particular country ! pass into URL ?
+  ngOnInit() {
+
+    this.route.params.subscribe(params => {
+      this.nationName = params['country'];
+    });
+
+    this.newMethod();
+
+    }
+
+
+  private newMethod() {
+    this.initNationChart();
   }
 
+  private initNationChart() {
+    this.olympicService
+      .loadInitialData()
+      .pipe()
+      .subscribe(nations => {
+        //throw "Nation not defined, go back and select a country please";
+        this.data = this.olympicService.mapForNationNgxChart(nations, this.nationName);
+        if (this.data.series === undefined) {
+          throw "Nation not defined, go back and select a country please";
+        } else {
+
+          this.anytab.push(this.data);
+          console.log(this.anytab);
+          this.callWorkFine = true;
+        }
+
+        this.nbMedals = this.olympicService.countNbMedals(this.data);
+        this.nbAthletes = this.olympicService.countNbAthletes(nations,this.nationName);
+      }
+      ),
+      catchError((error) => {
+        this.error = error;
+        console.log('Caught in CatchError. Throwing error => ' + error);
+        this.callWorkFine = false; //for ngif on html, show error
+        return of();
+      });
+    }
 }
