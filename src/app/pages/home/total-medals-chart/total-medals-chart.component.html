@@ -1,0 +1,44 @@
+
+<ng-container *ngIf="callWorkFine; then callWorkFineTrue else callNotWorkingProperly"></ng-container>
+
+
+<ng-template #callWorkFineTrue>
+
+<div class="h3contener">
+
+  <div class="numberOf">
+      <h3>Number of JOs</h3>
+      <p>{{this.nbJOs}}</p> 
+  </div>
+
+  <div class="numberOf">
+      <h3>Number of country</h3>
+      <p>{{this.datasNations.length}}</p>
+  </div>
+
+</div>
+
+  <!-- for custom color add '[scheme]="this.colorScheme"' -->
+  <ngx-charts-pie-chart 
+    [results]="this.datasNations" 
+    [gradient]="gradient" 
+    [legend]="showLegend"
+    [legendPosition]="legendPosition" 
+    [labels]="showLabels" 
+    [doughnut]="isDoughnut" 
+    [tooltipText]=""
+    (select)="onSelect($event)">
+
+    <ng-template #tooltipTemplate let-model="model">
+      <div class="tt">
+        <p>{{ model.name }}</p>
+        <p>🥇{{ model.value }}</p>
+      </div>
+    </ng-template>
+
+  </ngx-charts-pie-chart>
+</ng-template>
+
+<ng-template #callNotWorkingProperly>
+  <h2 class="error"> Erreur dans le traitement des données => [ {{this.error}} ]  </h2>
+</ng-template>

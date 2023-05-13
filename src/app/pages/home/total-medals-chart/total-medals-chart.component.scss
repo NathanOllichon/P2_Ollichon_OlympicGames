@@ -1,0 +1,9 @@
+
+//tootip
+::ng-deep ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
+    .tooltip-caret.position-top {
+        border-top-color: darkcyan;
+    }
+    background-color: darkcyan;
+    font-size: large;
+}
