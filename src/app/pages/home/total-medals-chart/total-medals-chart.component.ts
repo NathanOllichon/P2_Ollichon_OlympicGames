@@ -12,7 +12,7 @@ import { catchError, of } from 'rxjs';
 })
 export class TotalMedalsChartComponent implements OnInit {
 
-  callWorkFine: boolean = false;
+  callWorkFine: boolean = true;
   datasNations!: NationForNgxCharts[];
   error: any;
   nbJOs: number = 0;
