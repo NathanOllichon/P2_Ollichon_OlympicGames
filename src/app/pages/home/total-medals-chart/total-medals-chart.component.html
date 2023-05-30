@@ -19,7 +19,11 @@
 </div>
 
   <!-- for custom color add '[scheme]="this.colorScheme"' -->
-  <ngx-charts-pie-chart 
+
+
+  <!-- TODO En suivant les forums, bug connu ! comment fix ? try add view and undo padding on a div container of this chart -->
+  <!-- [view]="view" -->
+  <ngx-charts-pie-chart
     [results]="this.datasNations" 
     [gradient]="gradient" 
     [legend]="showLegend"
@@ -27,7 +31,7 @@
     [labels]="showLabels" 
     [doughnut]="isDoughnut" 
     [tooltipText]=""
-    (select)="onSelect($event)">
+    (select)="onSelect($event)" style="height: 400px;">
 
     <ng-template #tooltipTemplate let-model="model">
       <div class="tt">

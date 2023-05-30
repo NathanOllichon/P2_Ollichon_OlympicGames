@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { NationForNgxCharts } from '../models/nationForsNgxCharts.model';
 import { Nation } from '../models/nation.model';
 import { DetailledNationForNgxCharts } from '../models/nationForsNgxCharts.model copy';
@@ -17,7 +17,7 @@ export class OlympicService {
   //I would keep that in service because the tap (*or next) contains the observer of my http request. 
   //on fututre if someone else want to use there datas, he can reUse that service
   loadInitialData() {
-
+    //throw throwError("error test1");    
     return this.http
       .get<any>(this.olympicUrl)
   }
