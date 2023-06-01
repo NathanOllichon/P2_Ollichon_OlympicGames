@@ -16,14 +16,35 @@ h1{
     align-items: center;
 }
 
+@media (max-width:711px){
+    .numberOf {
+    border: solid 2px darkcyan;
+    border-radius: 10px;
+    width: fit-content;
+    margin: auto 1vw auto 1vw; 
+    text-align: center;
+    padding: 1vh 1vw 1vh 1vw;
+    align-items: center;
+        min-height: 16vh;
+        min-width: 25vw;
+    }
+}
+
+@media (min-width:711px){
+    .numberOf {
+        min-height: 16vh;
+    }
+}
+
 .numberOf {
     border: solid 2px darkcyan;
     border-radius: 10px;
     width: fit-content;
-    margin: auto 3vw auto 3vw; 
+    margin: auto 1vw auto 1vw; 
     text-align: center;
     padding: 1vh 1vw 1vh 1vw;
     align-items: center;
+    width: 15vw;
 }
 
 .h3contener{
