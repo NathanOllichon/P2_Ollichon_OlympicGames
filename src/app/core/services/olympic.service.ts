@@ -1,9 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError } from 'rxjs';
-import { NationForNgxCharts } from '../models/nationForsNgxCharts.model';
-import { Nation } from '../models/nation.model';
-import { DetailledNationForNgxCharts } from '../models/nationForsNgxCharts.model copy';
 
 @Injectable({
   providedIn: 'root',
