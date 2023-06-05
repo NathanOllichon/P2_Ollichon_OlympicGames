@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { catchError } from 'rxjs';
 import { NationForNgxCharts } from '../models/nationForsNgxCharts.model';
 import { Nation } from '../models/nation.model';
 import { DetailledNationForNgxCharts } from '../models/nationForsNgxCharts.model copy';
@@ -10,19 +10,21 @@ import { DetailledNationForNgxCharts } from '../models/nationForsNgxCharts.model
 })
 export class OlympicService {
   private olympicUrl = './assets/mock/olympic.json';
-  private olympics$ = new BehaviorSubject<any>(undefined);
 
   constructor(private http: HttpClient) { }
 
   //I would keep that in service because the tap (*or next) contains the observer of my http request. 
   //on fututre if someone else want to use there datas, he can reUse that service
-  loadInitialData() {
-    //throw throwError("error test1");    
+  loadInitialData() {   
     return this.http
       .get<any>(this.olympicUrl)
+      .pipe(
+        catchError((error)=>{
+          throw error;
+        }));
   }
 
-  //TODO rename format to map, maybe add an mapper.class ? YES ! //TODO
+  //TODO rename format to map, add an mapper.class ? YES ! //TODO
   mapForTotalNgxChart(value: Nation[]) {
     var tabNations: NationForNgxCharts[] = [];
 
@@ -46,9 +48,9 @@ export class OlympicService {
       )
     });
 
-    //Set delete duplicated datas.
-    var uniqueYearsJO = Array.from(new Set(duplicatedYearJOs));
-
+    //Set object delete duplicated datas.
+    const uniqueYearsJO = Array.from(new Set(duplicatedYearJOs));
+    
     return uniqueYearsJO.length;
   }
 
@@ -56,8 +58,8 @@ export class OlympicService {
     var countMedals: number = 0;
     nation.series.forEach(JO => {
       countMedals += JO.value;
-    }
-    )
+    })
+
     return countMedals;
   }
 
@@ -70,11 +72,8 @@ export class OlympicService {
         )
       }
     });
+    
     return countAthletes;
-  }
-
-  getOlympics() {
-    return this.olympics$.asObservable();
   }
 
 }

@@ -17,11 +17,7 @@
 
   </div>
 
-  <!-- for custom color add '[scheme]="this.colorScheme"' -->
-
-
-  <!-- TODO En suivant les forums, bug connu ! comment fix ? try add view and undo padding on a div container of this chart -->
-  <!-- [view]="view" -->
+  <!-- for custom color add '[scheme]="this.colorScheme"' to <ngx-charts-pie-chart> -->
   <div class="chart-container">
     <ngx-charts-pie-chart [results]="this.datasNations" [gradient]="gradient" [legend]="showLegend"
       [legendPosition]="legendPosition" [labels]="showLabels" [doughnut]="isDoughnut" [tooltipText]=""
@@ -39,5 +35,5 @@
 </ng-template>
 
 <ng-template #callNotWorkingProperly>
-  <h2 class="error"> Erreur dans le traitement des données => [ {{this.error}} ] </h2>
+  <h2 class="error"> An error occurred => [ {{this.error}} ] </h2>
 </ng-template>

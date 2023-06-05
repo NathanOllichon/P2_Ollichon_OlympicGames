@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-import { catchError, of } from 'rxjs';
+import { of } from 'rxjs';
 import { DetailledNationForNgxCharts } from 'src/app/core/models/nationForsNgxCharts.model copy';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -12,9 +12,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class NationChartComponent implements OnInit {
 
   callWorkFine: boolean = true;
+  error?: string;
+
   data !: DetailledNationForNgxCharts;
-  anytab: any[] = [];
-  error: any;
+  nationSelectedMedalTab: any[] = [];
   nationName!: string;
   nbMedals!: number;
   nbAthletes!: number;
@@ -35,50 +36,37 @@ export class NationChartComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.route.params.subscribe(params => {
       this.nationName = params['country'];
       this.initNationChart();
     });
-
-
   }
-
-
-  // private newMethod() {
-  //   this.initNationChart();
-  // }
 
   private initNationChart() {
     this.olympicService
       .loadInitialData()
       .pipe()
-      .subscribe(nations => {
-        //throw "Nation not defined, go back and select a country please";
-        this.data = this.olympicService.mapForNationNgxChart(nations, this.nationName);
-        if (this.data.series === undefined) {
-          throw "Nation not defined, go back and select a country please";
-        } else {
-
-          this.anytab.push(this.data);
-          console.log(this.anytab);
-          this.callWorkFine = true;
+      .subscribe({
+        next: (nations) => {
+          this.data = this.olympicService.mapForNationNgxChart(nations, this.nationName);
+          if (this.data.series === undefined) {
+            this.retour();
+          } else {
+            this.nationSelectedMedalTab.push(this.data);
+            this.callWorkFine = true;
+          }
+          this.nbMedals = this.olympicService.countNbMedals(this.data);
+          this.nbAthletes = this.olympicService.countNbAthletes(nations, this.nationName);
+        },
+        error: (e: Error) => {
+          this.error = e.message;
+          this.callWorkFine = false; //for ngif on html, show error
+          return of();
         }
-
-        this.nbMedals = this.olympicService.countNbMedals(this.data);
-        this.nbAthletes = this.olympicService.countNbAthletes(nations, this.nationName);
-      }
-      ),
-      catchError((error) => {
-        this.error = error;
-        console.log('Caught in CatchError. Throwing error => ' + error);
-        this.callWorkFine = false; //for ngif on html, show error
-        return of();
       });
   }
 
   public retour() {
-    // navigation ""
     this.router.navigate(['']);
   }
 }

@@ -25,13 +25,13 @@
     <div class="line-chart">
         <ngx-charts-line-chart [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxis]="xAxis"
             [yAxis]="yAxis" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [timeline]="timeline"
-            [results]="anytab">
+            [results]="nationSelectedMedalTab">
         </ngx-charts-line-chart>
     </div>
 </ng-template>
 
 <ng-template #callNotWorking>
-    <h2 class="error"> Erreur dans le traitement des données => [ {{this.error}} ] </h2>
+    <h2 class="error"> An error occurred => [ {{this.error}} ] </h2>
 </ng-template>
 
 <div class="goBack">
