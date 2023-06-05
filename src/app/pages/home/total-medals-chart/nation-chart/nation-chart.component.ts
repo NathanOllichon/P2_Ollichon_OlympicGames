@@ -3,6 +3,8 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 import { of } from 'rxjs';
 import { DetailledNationForNgxCharts } from 'src/app/core/models/nationForsNgxCharts.model copy';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CounterService } from 'src/app/core/services/counter.service';
+import { MapperDatasForNgxChartsService } from 'src/app/core/services/mapper-datas-for-ngx-charts.service';
 
 @Component({
   selector: 'app-nation-chart',
@@ -32,7 +34,7 @@ export class NationChartComponent implements OnInit {
   xAxisLabel: string = 'JO';
   timeline: boolean = true;
 
-  constructor(private olympicService: OlympicService, private route: ActivatedRoute, private router: Router) {
+  constructor(private olympicService: OlympicService, private counterService: CounterService,  private mapperDatasToNgxService: MapperDatasForNgxChartsService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
@@ -48,19 +50,19 @@ export class NationChartComponent implements OnInit {
       .pipe()
       .subscribe({
         next: (nations) => {
-          this.data = this.olympicService.mapForNationNgxChart(nations, this.nationName);
+          this.data = this.mapperDatasToNgxService.mapForNationNgxChart(nations, this.nationName);
           if (this.data.series === undefined) {
             this.retour();
           } else {
             this.nationSelectedMedalTab.push(this.data);
             this.callWorkFine = true;
           }
-          this.nbMedals = this.olympicService.countNbMedals(this.data);
-          this.nbAthletes = this.olympicService.countNbAthletes(nations, this.nationName);
+          this.nbMedals = this.counterService.countNbMedals(this.data);
+          this.nbAthletes = this.counterService.countNbAthletes(nations, this.nationName);
         },
         error: (e: Error) => {
           this.error = e.message;
-          this.callWorkFine = false; //for ngif on html, show error
+          this.callWorkFine = false;
           return of();
         }
       });

@@ -3,6 +3,8 @@ import { LegendPosition } from '@swimlane/ngx-charts';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NationForNgxCharts } from 'src/app/core/models/nationForsNgxCharts.model';
+import { CounterService } from 'src/app/core/services/counter.service';
+import { MapperDatasForNgxChartsService } from 'src/app/core/services/mapper-datas-for-ngx-charts.service';
 
 @Component({
   selector: 'app-total-medals-chart',
@@ -25,7 +27,7 @@ export class TotalMedalsChartComponent implements OnInit {
   isDoughnut: boolean = false;
   legendPosition: LegendPosition = LegendPosition.Below;
 
-  constructor(private olympicService: OlympicService, private route: ActivatedRoute,
+  constructor(private olympicService: OlympicService, private counterService: CounterService, private mapperDatasToNgxService: MapperDatasForNgxChartsService, private route: ActivatedRoute,
     private router: Router) {
   }
 
@@ -35,10 +37,10 @@ export class TotalMedalsChartComponent implements OnInit {
     .loadInitialData()
     .subscribe({
       next: (nations) => {
-        const tabNation: NationForNgxCharts[] = this.olympicService.mapForTotalNgxChart(nations);
+        const tabNation: NationForNgxCharts[] = this.mapperDatasToNgxService.mapForTotalNgxChart(nations);
         this.datasNations = tabNation;
 
-        this.nbJOs = this.olympicService.countNbJOs(nations);
+        this.nbJOs = this.counterService.countNbJOs(nations);
         this.callWorkFine = true;
     },
       error: (e:Error) => {
