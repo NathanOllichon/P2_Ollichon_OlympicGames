@@ -1,0 +1,14 @@
+
+//tootip
+::ng-deep ngx-tooltip-content.ngx-charts-tooltip-content.type-tooltip {
+    .tooltip-caret.position-top {
+        border-top-color: darkcyan;
+    }
+    background-color: darkcyan;
+    font-size: large;
+}
+
+//for fix know issue bigger and bigger when resize page
+.chart-container {
+    padding: 0px 0px 0px 0px;
+}

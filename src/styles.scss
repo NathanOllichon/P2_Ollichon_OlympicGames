@@ -1,1 +1,65 @@
 /* You can add global styles to this file, and also import other style files */
+*{
+    font-family: sans-serif;
+    font-weight: 100;
+}
+
+
+h1{
+    background-color: darkcyan;
+    border-radius: 10px;
+    padding: 1vh 1vw 1vh 1vw;
+    margin: 3vh auto 3vh auto;
+    width:fit-content;
+    text-align: center;
+    color: white;
+    align-items: center;
+}
+
+@media (max-width:711px){
+    .numberOf {
+    border: solid 2px darkcyan;
+    border-radius: 10px;
+    width: fit-content;
+    margin: auto 1vw auto 1vw; 
+    text-align: center;
+    padding: 1vh 1vw 1vh 1vw;
+    align-items: center;
+        min-height: 16vh;
+        min-width: 25vw;
+    }
+}
+
+@media (min-width:711px){
+    .numberOf {
+        min-height: 16vh;
+    }
+}
+
+.numberOf {
+    border: solid 2px darkcyan;
+    border-radius: 10px;
+    width: fit-content;
+    margin: auto 1vw auto 1vw; 
+    text-align: center;
+    padding: 1vh 1vw 1vh 1vw;
+    align-items: center;
+    width: 15vw;
+}
+
+.h3contener{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+h3{
+    color: gray;
+}
+
+.error{
+    background-color: rgba(248, 41, 41, 0.326);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
