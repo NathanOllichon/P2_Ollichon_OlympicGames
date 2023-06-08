@@ -14,7 +14,7 @@ const routes: Routes = [
     component: NationChartComponent,
   },
   {
-    path: '**', // wildcard
+    path: '**',
     component: NotFoundComponent,
   }
 ];

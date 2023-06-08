@@ -10,8 +10,6 @@ export class OlympicService {
 
   constructor(private http: HttpClient) { }
 
-  //I would keep that in service because the tap (*or next) contains the observer of my http request. 
-  //on fututre if someone else want to use there datas, he can reUse that service
   loadInitialData() {   
     return this.http
       .get<any>(this.olympicUrl)
