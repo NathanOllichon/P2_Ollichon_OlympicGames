@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NationForNgxCharts } from 'src/app/core/models/nationForsNgxCharts.model';
 import { CounterService } from 'src/app/core/services/counter.service';
 import { MapperDatasForNgxChartsService } from 'src/app/core/services/mapper-datas-for-ngx-charts.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-total-medals-chart',
@@ -26,6 +27,7 @@ export class TotalMedalsChartComponent implements OnInit {
   showLabels: boolean = true;
   isDoughnut: boolean = false;
   legendPosition: LegendPosition = LegendPosition.Below;
+  nationDatas!: Subscription;
 
   constructor(private olympicService: OlympicService, private counterService: CounterService, private mapperDatasToNgxService: MapperDatasForNgxChartsService, private route: ActivatedRoute,
     private router: Router) {
@@ -33,7 +35,7 @@ export class TotalMedalsChartComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.olympicService
+    this.nationDatas = this.olympicService
     .loadInitialData()
     .subscribe({
       next: (nations) => {
@@ -54,6 +56,14 @@ export class TotalMedalsChartComponent implements OnInit {
 
   onSelect(data: NationForNgxCharts): void {
     this.router.navigate(['nationchart', { country: data.name }]);
+  }
+
+  route404(){
+    this.router.navigate(['404']);
+  }
+
+  ngOnDestroy() {
+    this.nationDatas.unsubscribe();
   }
 
 }

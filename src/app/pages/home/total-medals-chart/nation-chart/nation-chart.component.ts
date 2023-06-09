@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OlympicService } from 'src/app/core/services/olympic.service';
-import { of } from 'rxjs';
+import { Subscription, of } from 'rxjs';
 import { DetailledNationForNgxCharts } from 'src/app/core/models/nationForsNgxCharts.model copy';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CounterService } from 'src/app/core/services/counter.service';
@@ -17,7 +17,7 @@ export class NationChartComponent implements OnInit {
   error?: string;
 
   data !: DetailledNationForNgxCharts;
-  nationSelectedMedalTab: any[] = [];
+  nationSelectedMedalTab: DetailledNationForNgxCharts[] = [];
   nationName!: string;
   nbMedals!: number;
   nbAthletes!: number;
@@ -33,19 +33,21 @@ export class NationChartComponent implements OnInit {
   yAxisLabel: string = 'Medals';
   xAxisLabel: string = 'JO';
   timeline: boolean = true;
+  olympicsDatas!: Subscription;
+  routingDatas!: Subscription;
 
   constructor(private olympicService: OlympicService, private counterService: CounterService,  private mapperDatasToNgxService: MapperDatasForNgxChartsService, private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
+    this.routingDatas = this.route.params.subscribe(params => {
       this.nationName = params['country'];
       this.initNationChart();
     });
   }
 
   private initNationChart() {
-    this.olympicService
+    this.olympicsDatas = this.olympicService
       .loadInitialData()
       .pipe()
       .subscribe({
@@ -71,4 +73,14 @@ export class NationChartComponent implements OnInit {
   public retour() {
     this.router.navigate(['']);
   }
+
+  public route404(){
+    this.router.navigate(['404']);
+  }
+
+  ngOnDestroy() {
+    this.olympicsDatas.unsubscribe();
+    this.routingDatas.unsubscribe();
+  }
+
 }
